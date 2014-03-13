@@ -13,14 +13,20 @@ var AppModel = Backbone.Model.extend({
     getting called from the window (unless we override it, as we do here). */
     params.library.on('play', function(song){
       var self = this;
+
       this.set('currentSong', song);
+      var triggeredAlready = false;
       $('audio').on('ended', function(){
-        var sq = self.get('songQueue');
-        console.log(sq.at(0));
-        sq.remove(sq.at(0));
-        console.log(sq.at(0));
-        var newSong = sq.at(0);
-        newSong.play();
+        if(!triggeredAlready){
+          var sq = self.get('songQueue');
+
+          sq.remove(sq.at(0));
+          if (sq.at(0) !== undefined) {
+            var newSong = sq.at(0);
+            newSong.play();
+          }
+          triggeredAlready = true;
+        }
       });
 
     }, this);
@@ -36,7 +42,8 @@ var AppModel = Backbone.Model.extend({
 
 
     params.library.on('dequeue', function(song){
-
+      var sq = this.get('songQueue');
+      sq.remove(song);
     }, this);
   }
 
