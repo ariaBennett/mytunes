@@ -33,12 +33,11 @@
         // put the view onto the screen
         $('body').append(appView.render());
         $('#playlistButton').on('click', function(){
-          console.log('Before: ' + app.get('currentSongQueue').length);
           var newSongQueue = new SongQueue();
-          var newSongQueueView = new SongQueueView(newSongQueue);
           app.set('currentSongQueue', newSongQueue);
+          var newSongQueueView = new SongQueueView({collection: app.get('currentSongQueue')});
           app.set('currentSongQueueView', newSongQueueView);
-          console.log('After: ' + app.get('currentSongQueue').length);
+          appView.attachRerenderSongQueue();
         });
       });
     </script>
