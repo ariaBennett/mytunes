@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-  <body>
+  <body style="margin: 0; text-align: center;">
     <!-- Scripts may be placed anywhere on a page. But FYI, they block rendering of elements
      below them until after the scripts load-->
     <script src="../bower_components/jquery/jquery.min.js"></script>
@@ -20,7 +20,7 @@
     <script src="views/SongQueueView.js"></script>
     <script src="views/SongQueueEntryView.js"></script>
     <script src="views/AppView.js"></script>
-
+    <button id="playlistButton" type="button">Create New Playlist</button>
     <script>
       $(function(){
         // set up model objects
@@ -32,6 +32,14 @@
 
         // put the view onto the screen
         $('body').append(appView.render());
+        $('#playlistButton').on('click', function(){
+          console.log('Before: ' + app.get('currentSongQueue').length);
+          var newSongQueue = new SongQueue();
+          var newSongQueueView = new SongQueueView(newSongQueue);
+          app.set('currentSongQueue', newSongQueue);
+          app.set('currentSongQueueView', newSongQueueView);
+          console.log('After: ' + app.get('currentSongQueue').length);
+        });
       });
     </script>
   </body>
