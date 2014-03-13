@@ -14,10 +14,14 @@ var AppModel = Backbone.Model.extend({
     params.library.on('play', function(song){
       var self = this;
 
+
+
       this.set('currentSong', song);
       var triggeredAlready = false;
       $('audio').on('ended', function(){
         if(!triggeredAlready){
+          song.set('playcount', song.get('playcount') + 1);
+
           var sq = self.get('songQueue');
 
           sq.remove(sq.at(0));
